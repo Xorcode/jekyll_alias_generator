@@ -26,6 +26,10 @@
 # Plugin Source: http://github.com/tsmango/jekyll_alias_generator
 # Site Source: http://github.com/tsmango/thomasmango.com
 # PLugin License: MIT
+# 
+# Author: Torgny Bjers
+# Site: http://xorcode.com/
+# Added support for automatically generating aliases in category folders
 
 module Jekyll
 
@@ -41,6 +45,11 @@ module Jekyll
     def process_posts
       @site.posts.each do |post|
         generate_aliases(post.url, post.data['alias'])
+        aliases = Array.new
+        post.categories.each do |category|
+          aliases << "/#{category.downcase}/#{post.slug}"
+        end
+        generate_aliases(post.url, aliases)
       end
     end
 
